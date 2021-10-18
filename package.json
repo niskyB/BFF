@@ -1,0 +1,31 @@
+{
+    "name": "BFF",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "express": "^4.17.1",
+        "ts-node": "^10.3.0",
+        "typescript": "^4.4.4"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.13",
+        "@types/node": "^16.11.1"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "NODE_ENV=production ts-node src/index.ts",
+        "start:dev": "NODE_ENV=development nodemon --exec ts-node src/index.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/niskyB/BFF.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/niskyB/BFF/issues"
+    },
+    "homepage": "https://github.com/niskyB/BFF#readme"
+}
