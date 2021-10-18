@@ -1,2 +1,5 @@
 **/node_modules
 **/configs
+**/*.mwb
+**/*.mwb.bak
+**/*.sql
