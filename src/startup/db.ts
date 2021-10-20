@@ -3,7 +3,7 @@ import { Connection, createConnection } from "typeorm";
 let connection: Connection = null;
 
 export async function dbStartUp() {
-    if(!connection) {
+    if (!connection) {
         connection = await createConnection({
             type: "mysql",
             host: process.env.HOST,
@@ -12,7 +12,8 @@ export async function dbStartUp() {
             password: process.env.PASSWORD,
             database: process.env.DATABASE,
             entities: [
-                __dirname + "/../entity/*.js"
+                __dirname + "/../entity/*.js",
+                __dirname + "/../entity/*.ts",
             ],
             synchronize: true,
             logging: false
