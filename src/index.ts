@@ -2,6 +2,7 @@ import { dbStartUp } from "./startup/db";
 import * as express from "express";
 import * as dotenv from "dotenv";
 import * as path from "path";
+import routeConfig from "./startup/routes";
 
 // dotenv config
 dotenv.config({
@@ -11,6 +12,7 @@ dotenv.config({
 // start up
 const app = express();
 dbStartUp();
+routeConfig(app);
 
 // listen
 const port = process.env.PORT || 3000;
