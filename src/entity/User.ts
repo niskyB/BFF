@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { IsDate, IsEmail, IsPhoneNumber } from "class-validator";
 
 export type userRole = 0 | 1;
@@ -36,14 +36,14 @@ export class User {
 
     @Column({
         nullable: true
-    }) 
+    })
     avatar: string;
 
     @Column()
     password: string;
 
     @Column({
-        type: "date",
+        type: "datetime",
         default: () => "CURRENT_TIMESTAMP"
     })
     @IsDate()
