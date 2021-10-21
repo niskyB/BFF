@@ -25,4 +25,9 @@ export class UserRepository extends Repository<User> {
         const user = await this.findOne({ email }).catch(err => err);
         return user;
     }
+
+    async findUserById(userId: string): Promise<User> {
+        const user = await this.findOne({ userId }).catch(err => err);
+        return user;
+    }
 }
