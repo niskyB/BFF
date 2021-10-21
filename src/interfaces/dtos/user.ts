@@ -5,3 +5,8 @@ export interface RegisterUserDTO {
     password: string,
     confirmPassword: string
 }
+
+export interface LoginUserDTO {
+    username: string,
+    password: string
+}
