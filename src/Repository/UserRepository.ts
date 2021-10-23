@@ -30,4 +30,17 @@ export class UserRepository extends Repository<User> {
         const user = await this.findOne({ userId }).catch(err => err);
         return user;
     }
+
+    async updateUserPassword(userId: string, password: string): Promise<User> {
+        const user = await this.findUserById(userId);
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+        const result = this.save(user).catch(err => err.sqlMessage);
+        return result;
+    }
+
+    async updateUserProfile(user: User): Promise<User> {
+        const result = this.save(user).catch(err => err.sqlMessage);
+        return result;
+    }
 }
