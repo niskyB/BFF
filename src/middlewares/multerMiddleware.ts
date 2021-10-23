@@ -5,7 +5,7 @@ import { genResponseForm } from "../utils/responseHelper";
 
 export function multerErrorMiddleware(multerAction: any) {
     return (req: Request, res: Response, next: NextFunction) => {
-        multerAction(req, res, err => {
+        multerAction(req, res, (err: any) => {
             if (err instanceof multer.MulterError) {
                 return res.status(BAD_REQUEST).send(genResponseForm(null, err, err.message));
             }
