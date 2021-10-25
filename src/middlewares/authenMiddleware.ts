@@ -3,13 +3,14 @@ import * as jwt from "jsonwebtoken";
 import { BAD_REQUEST, UNAUTHORIZED } from "../constants/statusConstants";
 import { User } from "../entity/User";
 import { RequestWithUser } from "../interfaces/common/Request";
+import { genResponseForm } from "../utils/responseHelper";
 
 export default function (req: RequestWithUser<any>, res: Response, next: NextFunction) {
     // get token from cookies
     const token = req.cookies["x-auth-token"];
 
     // check token
-    if (!token) return res.status(UNAUTHORIZED).send('Access denied. No token provided');
+    if (!token) return res.status(UNAUTHORIZED).send(genResponseForm(null, null, 'Access denied. No token provided'));
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY) as User;
