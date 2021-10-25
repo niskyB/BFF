@@ -1,5 +1,5 @@
 import { ServerRequest, RequestWithUser } from "../interfaces/common/Request";
-import { Request, Response } from "express";
+import { Response } from "express";
 import * as express from "express";
 import { RegisterUserDTO, LoginUserDTO, UpdatePasswordUserDTO, UpdateProfileUserDTO } from "../interfaces/dtos/user";
 import { validateLoginUser, validateUpdatePasswordUser, validateUpdateProfileUser, validateUser } from "../validator/User";
@@ -15,6 +15,7 @@ import { multerErrorMiddleware } from "../middlewares/multerMiddleware";
 import { upload } from "../utils/multerHelper";
 const router = express.Router();
 
+// Get logout
 router.get(
     '/me/logout',
     authenMiddleware,
@@ -26,6 +27,7 @@ router.get(
     }
 )
 
+// Get me
 router.get(
     '/me',
     authenMiddleware,
@@ -53,6 +55,7 @@ router.get(
     }
 )
 
+// Post update profile
 router.post(
     '/me/updateProfile',
     [
@@ -76,6 +79,11 @@ router.post(
 
         // get current user
         let user = await userRepo.findUserById(req.user.userId);
+
+        // check current user
+        if (!user) {
+            return res.status(NOT_FOUND).send(genResponseForm(null, null, 'cannot find the current user'));
+        }
 
         // check existed email
         const isExistedEmail = await userRepo.findUserByEmail(req.body.email);
@@ -105,6 +113,7 @@ router.post(
     }
 )
 
+// Post update password
 router.post(
     '/me/updatePassword',
     authenMiddleware,
@@ -152,6 +161,7 @@ router.post(
     }
 )
 
+// Post login
 router.post(
     '/login',
     async (req: ServerRequest<LoginUserDTO>, res: Response) => {
@@ -191,6 +201,7 @@ router.post(
     }
 )
 
+// Post register
 router.post(
     '/register',
     async (req: ServerRequest<RegisterUserDTO>, res: Response) => {
