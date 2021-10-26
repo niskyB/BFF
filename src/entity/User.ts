@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { IsDate, IsEmail, IsPhoneNumber } from "class-validator";
+import { Order } from "./Order";
 
 export type userRole = 0 | 1;
 
@@ -54,5 +55,10 @@ export class User {
         enum: [0, 1],
         default: 0
     })
-    roleId: userRole
+    roleId: userRole;
+
+    @OneToMany(type => Order, orders => orders.user, {
+        cascade: true
+    })
+    orders: Order;
 }
