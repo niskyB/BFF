@@ -55,112 +55,6 @@ router.get(
     }
 )
 
-// Post update profile
-router.post(
-    '/me/updateProfile',
-    [
-        authenMiddleware,
-        multerErrorMiddleware(upload.single('avatar'))
-    ],
-    async (req: RequestWithUser<UpdateProfileUserDTO>, res: Response) => {
-        const { error } = validateUpdateProfileUser(req.body);
-        if (error) {
-            const errors = error.details.reduce((pre, next) => {
-                return {
-                    ...pre,
-                    [next.context.label]: next.message
-                }
-            }, {});
-            return res.status(BAD_REQUEST).send(genResponseForm(null, errors, 'Invalid params'));
-        }
-
-        // get connection
-        const userRepo = getCustomRepository(UserRepository);
-
-        // get current user
-        let user = await userRepo.findUserById(req.user.userId);
-
-        // check current user
-        if (!user) {
-            return res.status(NOT_FOUND).send(genResponseForm(null, null, 'cannot find the current user'));
-        }
-
-        // check existed email
-        const isExistedEmail = await userRepo.findUserByEmail(req.body.email);
-        if (req.body.email != user.email && isExistedEmail) {
-            return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'the given email is already existed'));
-        }
-
-        // check avatar
-        if (req.file) {
-            req.body.avatar = req.file.filename;
-        }
-
-        // set the current value if have null params
-        user.fullName = req.body.fullname;
-        user.email = req.body.email;
-        user.address = req.body.address ? req.body.address : user.address;
-        user.phone = req.body.phone ? req.body.phone : user.phone;
-        user.avatar = req.body.avatar ? req.body.avatar : user.avatar;
-
-        // update to database
-        const result = await userRepo.updateUserProfile(user);
-
-        // check query
-        if (!result) return res.status(INTERNAL_SERVER_ERROR).send(genResponseForm(null, null, 'Something went wrong'));
-
-        res.send(genResponseForm(null, null, "update profile successful"));
-    }
-)
-
-// Post update password
-router.post(
-    '/me/updatePassword',
-    authenMiddleware,
-    async (req: RequestWithUser<UpdatePasswordUserDTO>, res: Response) => {
-        // validate data
-        const { error } = validateUpdatePasswordUser(req.body);
-        if (error) {
-            const errors = error.details.reduce((pre, next) => {
-                return {
-                    ...pre,
-                    [next.context.label]: next.message
-                }
-            }, {});
-            return res.status(BAD_REQUEST).send(genResponseForm(null, errors, 'Invalid params'));
-        }
-
-        // get connection
-        const userRepo = getCustomRepository(UserRepository);
-
-        // get current user
-        const user = await userRepo.findUserById(req.user.userId);
-
-        // check current user
-        if (!user) {
-            return res.status(NOT_FOUND).send(genResponseForm(null, null, 'cannot find the current user'));
-        }
-
-        // check password
-        if (!await bcrypt.compare(req.body.currentPassword, user.password)) {
-            return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'the current password is incorrect'));
-        }
-
-        // check current password and new password
-        if (req.body.currentPassword === req.body.password) {
-            return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'new password should be different with current password'));
-        }
-
-        // update password
-        const result = await userRepo.updateUserPassword(req.user.userId, req.body.password);
-
-        // check query
-        if (!result) return res.status(INTERNAL_SERVER_ERROR).send(genResponseForm(null, null, 'Something went wrong'));
-
-        res.send(genResponseForm(null, null, 'update password successful'));
-    }
-)
-
 // Post login
 router.post(
     '/login',
@@ -265,6 +159,112 @@ router.post(
             maxAge: 86400 * 100
         });
         res.status(CREATED).send(genResponseForm(null, null, "register successful"));
+    }
+);
+
+// Put update password
+router.put(
+    '/me/updatePassword',
+    authenMiddleware,
+    async (req: RequestWithUser<UpdatePasswordUserDTO>, res: Response) => {
+        // validate data
+        const { error } = validateUpdatePasswordUser(req.body);
+        if (error) {
+            const errors = error.details.reduce((pre, next) => {
+                return {
+                    ...pre,
+                    [next.context.label]: next.message
+                }
+            }, {});
+            return res.status(BAD_REQUEST).send(genResponseForm(null, errors, 'Invalid params'));
+        }
+
+        // get connection
+        const userRepo = getCustomRepository(UserRepository);
+
+        // get current user
+        const user = await userRepo.findUserById(req.user.userId);
+
+        // check current user
+        if (!user) {
+            return res.status(NOT_FOUND).send(genResponseForm(null, null, 'cannot find the current user'));
+        }
+
+        // check password
+        if (!await bcrypt.compare(req.body.currentPassword, user.password)) {
+            return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'the current password is incorrect'));
+        }
+
+        // check current password and new password
+        if (req.body.currentPassword === req.body.password) {
+            return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'new password should be different with current password'));
+        }
+
+        // update password
+        const result = await userRepo.updateUserPassword(req.user.userId, req.body.password);
+
+        // check query
+        if (!result) return res.status(INTERNAL_SERVER_ERROR).send(genResponseForm(null, null, 'Something went wrong'));
+
+        res.send(genResponseForm(null, null, 'update password successful'));
+    }
+);
+
+// Put update profile
+router.put(
+    '/me/updateProfile',
+    [
+        authenMiddleware,
+        multerErrorMiddleware(upload.single('avatar'))
+    ],
+    async (req: RequestWithUser<UpdateProfileUserDTO>, res: Response) => {
+        const { error } = validateUpdateProfileUser(req.body);
+        if (error) {
+            const errors = error.details.reduce((pre, next) => {
+                return {
+                    ...pre,
+                    [next.context.label]: next.message
+                }
+            }, {});
+            return res.status(BAD_REQUEST).send(genResponseForm(null, errors, 'Invalid params'));
+        }
+
+        // get connection
+        const userRepo = getCustomRepository(UserRepository);
+
+        // get current user
+        let user = await userRepo.findUserById(req.user.userId);
+
+        // check current user
+        if (!user) {
+            return res.status(NOT_FOUND).send(genResponseForm(null, null, 'cannot find the current user'));
+        }
+
+        // check existed email
+        const isExistedEmail = await userRepo.findUserByEmail(req.body.email);
+        if (req.body.email != user.email && isExistedEmail) {
+            return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'the given email is already existed'));
+        }
+
+        // check avatar
+        if (req.file) {
+            req.body.avatar = req.file.filename;
+        }
+
+        // set the current value if have null params
+        user.fullName = req.body.fullname;
+        user.email = req.body.email;
+        user.address = req.body.address ? req.body.address : user.address;
+        user.phone = req.body.phone ? req.body.phone : user.phone;
+        user.avatar = req.body.avatar ? req.body.avatar : user.avatar;
+
+        // update to database
+        const result = await userRepo.updateUserProfile(user);
+
+        // check query
+        if (!result) return res.status(INTERNAL_SERVER_ERROR).send(genResponseForm(null, null, 'Something went wrong'));
+
+        res.send(genResponseForm(null, null, "update profile successful"));
     }
 )
 

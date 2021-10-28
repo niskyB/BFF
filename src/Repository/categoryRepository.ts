@@ -1,4 +1,4 @@
-import { EntityRepository, InsertValuesMissingError, Repository } from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 import { Category } from "../entity/Category";
 
 @EntityRepository(Category)
@@ -19,12 +19,17 @@ export class CategoryRepository extends Repository<Category> {
     }
 
     async getCategoryList(): Promise<Array<Category>> {
-        const result = await this.find().catch(err => err);
+        const result = await this.find({
+            relations: ["products"]
+        }).catch(err => err);
         return result;
     }
 
     async getCategoryById(categoryId: number): Promise<Category> {
-        const result = await this.findOne({ categoryId }).catch(err => err);
+        const result = await this.findOne({
+            where: { categoryId },
+            relations: ["products"]
+        }).catch(err => err);
         return result;
     }
 

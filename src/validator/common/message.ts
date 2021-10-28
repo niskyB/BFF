@@ -14,3 +14,12 @@ export const stringCustomPhone = {
     ...stringCustomMessage,
     "string.pattern.base": "invalid phone"
 }
+
+export const numberCustomMessage = {
+    "any.required": "required",
+    "number.min": "should be not below 0"
+}
+
+export const dateCustomMessage = {
+    "date.required": "required",
+}

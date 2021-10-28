@@ -11,8 +11,6 @@ export class Category {
     })
     categoryName: string;
 
-    @OneToMany(type => Product, product => product.category, {
-        cascade: true
-    })
+    @OneToMany(type => Product, product => product.category)
     products: Product[];
 }

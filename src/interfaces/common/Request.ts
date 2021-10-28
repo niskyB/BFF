@@ -1,5 +1,4 @@
 import { Request } from "express";
-import { Category } from "../../entity/Category";
 import { User } from "../../entity/User";
 
 export interface ServerRequest<T> extends Request {
@@ -12,6 +11,9 @@ export interface RequestWithUser<T> extends Request {
 }
 
 export interface RequestWithCategory<T> extends Request {
-    body: T,
-    category: Category
+    body: T
+}
+
+export interface RequestWithProduct<T> extends Request {
+    body: T
 }

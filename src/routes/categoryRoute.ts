@@ -14,7 +14,6 @@ const router = express.Router();
 // Get category list
 router.get(
     '/list',
-    [authenMiddleware],
     async (req: Request, res: Response) => {
         // connect to db
         const cateRepo = getCustomRepository(CategoryRepository);
@@ -30,8 +29,57 @@ router.get(
     }
 );
 
-// Post update category name
+// Get category by given id
+router.get(
+    '/:categoryId',
+    async (req: ServerRequest<Category>, res: Response) => {
+        // connect to db
+        const cateRepo = getCustomRepository(CategoryRepository);
+
+        // get category by given id
+        const id: number = +req.params.categoryId;
+        const category = await cateRepo.getCategoryById(id);
+        if (!category) return res.status(NOT_FOUND).send(genResponseForm(null, null, 'Cannot found the category with given id'));
+
+        res.send(genResponseForm(category, null, 'get category successful'));
+    }
+)
+
+// Post create category
 router.post(
+    '/create',
+    [
+        authenMiddleware,
+        authorMiddleware
+    ],
+    async (req: RequestWithCategory<Category>, res: Response) => {
+        // check params
+        const { error } = validateCategory(req.body);
+        if (error) {
+            const errors = error.details.reduce((pre, next) => {
+                return {
+                    ...pre,
+                    [next.context.label]: next.message
+                }
+            }, {});
+            return res.status(BAD_REQUEST).send(genResponseForm(null, errors, 'Invalid params'));
+        }
+
+        // connect to db
+        const cateRepo = getCustomRepository(CategoryRepository);
+
+        // check duplicated
+        const isExistedCategory = await cateRepo.getCategoryByName(req.body.categoryName);
+        if (isExistedCategory) return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'The given category is already existed'));
+
+        // insert to db
+        const result = await cateRepo.addNewCategory(req.body.categoryName);
+        return res.status(CREATED).send(genResponseForm({ categoryName: result.categoryName }, null, 'create successful'));
+    }
+);
+
+// Put update category name
+router.put(
     '/update/:categoryId',
     [
         authenMiddleware,
@@ -67,39 +115,6 @@ router.post(
         // update to db
         const result = await cateRepo.updateCategory(category, req.body.categoryName);
         res.send(genResponseForm(null, null, 'Update successful'));
-    }
-);
-
-// Post create category
-router.post(
-    '/create',
-    [
-        authenMiddleware,
-        authorMiddleware
-    ],
-    async (req: RequestWithCategory<Category>, res: Response) => {
-        // check params
-        const { error } = validateCategory(req.body);
-        if (error) {
-            const errors = error.details.reduce((pre, next) => {
-                return {
-                    ...pre,
-                    [next.context.label]: next.message
-                }
-            }, {});
-            return res.status(BAD_REQUEST).send(genResponseForm(null, errors, 'Invalid params'));
-        }
-
-        // connect to db
-        const cateRepo = getCustomRepository(CategoryRepository);
-
-        // check duplicated
-        const isExistedCategory = await cateRepo.getCategoryByName(req.body.categoryName);
-        if (isExistedCategory) return res.status(BAD_REQUEST).send(genResponseForm(null, null, 'The given category is already existed'));
-
-        // insert to db
-        const result = await cateRepo.addNewCategory(req.body.categoryName);
-        return res.status(CREATED).send(genResponseForm({ categoryName: result.categoryName }, null, 'create successful'));
     }
 );
 
