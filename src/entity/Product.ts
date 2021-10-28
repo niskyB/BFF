@@ -3,6 +3,8 @@ import { IsDate } from "class-validator";
 import { Category } from "./Category";
 import { OrderItem } from "./OrderItem";
 
+export type status = 0 | 1;
+
 @Entity()
 export class Product {
 
@@ -27,6 +29,13 @@ export class Product {
     description: string;
 
     @Column({
+        type: "enum",
+        enum: [0, 1],
+        default: 0
+    })
+    status: status;
+
+    @Column({
         type: "datetime"
     })
     @IsDate()
@@ -40,7 +49,8 @@ export class Product {
     createdDate: Date;
 
     @ManyToOne(type => Category, category => category.products, {
-        nullable: false
+        nullable: false,
+        cascade: true
     })
     category: Category;
 
