@@ -1,15 +1,10 @@
-export interface RegisterUserDTO {
-    username: string,
-    fullName: string,
-    email: string,
-    password: string,
+import { User } from "../../entity/User";
+
+export interface RegisterUserDTO extends Pick<User, "username" | "fullName" | "email" | "password"> {
     confirmPassword: string
 }
 
-export interface LoginUserDTO {
-    username: string,
-    password: string
-}
+export interface LoginUserDTO extends Pick<User, "username" | "password"> { }
 
 export interface UpdatePasswordUserDTO {
     currentPassword: string,
@@ -17,9 +12,7 @@ export interface UpdatePasswordUserDTO {
     confirmPassword: string,
 }
 
-export interface UpdateProfileUserDTO {
-    fullname: string,
-    email: string,
+export interface UpdateProfileUserDTO extends Pick<User, "fullName" | "email"> {
     address?: string,
     phone?: string,
     avatar?: string

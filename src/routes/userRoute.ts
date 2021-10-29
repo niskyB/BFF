@@ -252,7 +252,7 @@ router.put(
         }
 
         // set the current value if have null params
-        user.fullName = req.body.fullname;
+        user.fullName = req.body.fullName;
         user.email = req.body.email;
         user.address = req.body.address ? req.body.address : user.address;
         user.phone = req.body.phone ? req.body.phone : user.phone;

@@ -1,13 +1,8 @@
-export interface ProductInterface {
-    name: string,
-    image: string,
-    quantity: number,
-    price: number,
-    description: string,
-    publishedDate: Date,
+import { Product } from "../../entity/Product";
+
+export interface ProductInterface
+    extends Pick<Product, "name" | "image" | "quantity" | "price" | "description" | "publishedDate"> {
     categoryId: number
 }
 
-export interface UpdateProductQuantity {
-    quantity: number
-}
+export interface UpdateProductQuantity extends Pick<Product, "quantity"> { }

@@ -6,7 +6,7 @@ import { Response, Request } from "express";
 import { RequestWithCategory, ServerRequest } from "../interfaces/common/Request";
 import * as express from "express";
 import authorMiddleware from "../middlewares/authorMiddleware";
-import { Category } from "../interfaces/dtos/category";
+import { AddedCategory } from "../interfaces/dtos/category";
 import { validateCategory } from "../validator/category";
 import { CategoryRepository } from "../Repository/categoryRepository";
 const router = express.Router();
@@ -32,7 +32,7 @@ router.get(
 // Get category by given id
 router.get(
     '/:categoryId',
-    async (req: ServerRequest<Category>, res: Response) => {
+    async (req: ServerRequest<AddedCategory>, res: Response) => {
         // connect to db
         const cateRepo = getCustomRepository(CategoryRepository);
 
@@ -52,7 +52,7 @@ router.post(
         authenMiddleware,
         authorMiddleware
     ],
-    async (req: RequestWithCategory<Category>, res: Response) => {
+    async (req: RequestWithCategory<AddedCategory>, res: Response) => {
         // check params
         const { error } = validateCategory(req.body);
         if (error) {
@@ -85,7 +85,7 @@ router.put(
         authenMiddleware,
         authorMiddleware
     ],
-    async (req: RequestWithCategory<Category>, res: Response) => {
+    async (req: RequestWithCategory<AddedCategory>, res: Response) => {
         // check params
         const { error } = validateCategory(req.body);
         if (error) {
