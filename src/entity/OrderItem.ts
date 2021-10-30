@@ -9,7 +9,8 @@ export class OrderItem {
     orderItemId: string;
 
     @ManyToOne(type => Product, product => product.orderItem, {
-        nullable: false
+        nullable: false,
+        cascade: true
     })
     product: Product;
 

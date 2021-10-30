@@ -23,3 +23,8 @@ export const numberCustomMessage = {
 export const dateCustomMessage = {
     "date.required": "required",
 }
+
+export const productArrayCustomMessage = {
+    "any.required": "required",
+    "any.min": "should contain at least 1 product",
+}

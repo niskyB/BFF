@@ -22,7 +22,7 @@ const updatePasswordUserSchema = Joi.object<UpdatePasswordUserDTO>({
 });
 
 const updateProfileUserSchema = Joi.object<UpdateProfileUserDTO>({
-    fullname: Joi.string().min(3).max(255).required().messages(stringCustomMessage),
+    fullName: Joi.string().min(3).max(255).required().messages(stringCustomMessage),
     email: Joi.string().min(3).max(255).email().required().messages(stringCustomEmail),
     address: Joi.string().max(500).messages(stringCustomMessage),
     phone: Joi.string().min(6).max(20).pattern(/^[0-9]+$/).messages(stringCustomPhone),

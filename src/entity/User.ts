@@ -57,8 +57,6 @@ export class User {
     })
     roleId: userRole;
 
-    @OneToMany(type => Order, orders => orders.user, {
-        cascade: true
-    })
-    orders: Order;
+    @OneToMany(type => Order, orders => orders.user)
+    orders: Order[];
 }

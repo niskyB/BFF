@@ -6,3 +6,5 @@ export interface ProductInterface
 }
 
 export interface UpdateProductQuantity extends Pick<Product, "quantity"> { }
+
+export interface ProductInCart extends Pick<Product, "productId" | "price" | "quantity"> { }

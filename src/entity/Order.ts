@@ -26,10 +26,27 @@ export class Order {
     createdDate: Date;
 
     @ManyToOne(type => User, user => user.orders, {
-        nullable: false
+        nullable: false,
+        cascade: true,
+        eager: true
     })
     user: User;
 
     @OneToMany(type => OrderItem, orderItems => orderItems.order)
     orderItems: OrderItem[];
+
+    @Column({
+        nullable: false
+    })
+    receiver: string;
+
+    @Column({
+        nullable: false
+    })
+    address: string;
+
+    @Column({
+        nullable: false
+    })
+    phoneNumber: string;
 }
