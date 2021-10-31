@@ -4,8 +4,6 @@ import { getCustomRepository } from "typeorm";
 import { BAD_REQUEST, CREATED, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND } from "../constants/statusConstants";
 import { RequestWithUser, ServerRequest } from "../interfaces/common/Request";
 import * as express from "express";
-import authorMiddleware from "../middlewares/authorMiddleware";
-import * as http from "http";
 import { CancelOrder, NewOrder } from "../interfaces/dtos/order";
 import { Response } from "express";
 import { validateCancelOrder, validateNewOrder } from "../validator/order";
