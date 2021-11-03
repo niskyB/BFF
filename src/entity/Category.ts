@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Product } from "./Product";
 
@@ -7,7 +8,9 @@ export class Category {
     categoryId: number;
 
     @Column({
-        unique: true
+        type: 'varchar',
+        nullable: false,
+        length: 50
     })
     categoryName: string;
 

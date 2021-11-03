@@ -12,7 +12,7 @@ import { CategoryRepository } from "../Repository/categoryRepository";
 import { ProductRepository } from "../Repository/ProductRepository";
 import { Product } from "../entity/Product";
 import { multerErrorMiddleware } from "../middlewares/multerMiddleware";
-import { upload } from "../utils/multerHelper";
+import upload from "../utils/multerHelper";
 const router = express.Router();
 
 // Get product by given id

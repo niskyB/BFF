@@ -1,5 +1,6 @@
+import "reflect-metadata";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
-import { IsDate } from "class-validator";
+import { IsDate, maxLength } from "class-validator";
 import { Category } from "./Category";
 import { OrderItem } from "./OrderItem";
 
@@ -12,20 +13,29 @@ export class Product {
     productId: string;
 
     @Column({
-        unique: true
+        type: "varchar",
+        nullable: false,
+        length: 255
     })
     name: string;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        length: 500
+    })
     image: string;
 
-    @Column()
+    @Column('int')
     quantity: number;
 
-    @Column()
+    @Column('float')
     price: number;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        nullable: false,
+        length: 1000
+    })
     description: string;
 
     @Column({

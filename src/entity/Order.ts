@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { IsDate } from "class-validator";
 import { User } from "./User";
@@ -36,17 +37,23 @@ export class Order {
     orderItems: OrderItem[];
 
     @Column({
-        nullable: false
+        type: "varchar",
+        nullable: false,
+        length: 50
     })
     receiver: string;
 
     @Column({
-        nullable: false
+        type: "varchar",
+        nullable: false,
+        length: 255
     })
     address: string;
 
     @Column({
-        nullable: false
+        type: "varchar",
+        nullable: false,
+        length: 11
     })
     phoneNumber: string;
 }

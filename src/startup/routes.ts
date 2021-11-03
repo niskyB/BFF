@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Application } from "express";
 import * as express from "express";
 import userRoute from "../routes/userRoute";
@@ -5,7 +6,7 @@ import categoryRoute from "../routes/categoryRoute";
 import productRoute from "../routes/productRoute";
 import orderRoute from "../routes/orderRoute";
 import { error } from "../middlewares/error";
-import * as cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 
 export default function (app: Application) {
     app.use(express.json());

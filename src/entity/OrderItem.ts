@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Order } from "./Order";
 import { Product } from "./Product";
@@ -19,9 +20,9 @@ export class OrderItem {
     })
     order: Order;
 
-    @Column()
+    @Column('int')
     quantity: number;
 
-    @Column()
+    @Column('float')
     price: number;
 }

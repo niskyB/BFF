@@ -1,5 +1,5 @@
 import { Request } from "express";
-import * as multer from "multer";
+import multer from "multer";
 import * as path from "path";
 
 const maxSize = 1 * 1024 * 1024;
@@ -22,8 +22,9 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: any) => {
     }
 };
 
-export const upload = multer({
+export default multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: { fileSize: maxSize }
-});
+}) as multer.Multer;
+

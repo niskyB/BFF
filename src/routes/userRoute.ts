@@ -12,7 +12,7 @@ import authenMiddleware from "../middlewares/authenMiddleware";
 import * as bcrypt from "bcrypt";
 import { genResponseForm } from "../utils/responseHelper";
 import { multerErrorMiddleware } from "../middlewares/multerMiddleware";
-import { upload } from "../utils/multerHelper";
+import upload from "../utils/multerHelper";
 const router = express.Router();
 
 // Get logout
