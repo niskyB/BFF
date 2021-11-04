@@ -12,7 +12,7 @@ import authenMiddleware from "../middlewares/authenMiddleware";
 import * as bcrypt from "bcrypt";
 import { genResponseForm } from "../utils/responseHelper";
 import { multerErrorMiddleware } from "../middlewares/multerMiddleware";
-import upload from "../utils/multerHelper";
+import { upload } from "../utils/multerHelper";
 const router = express.Router();
 
 // Get logout
@@ -151,6 +151,7 @@ router.post(
 
         // save to db
         const result = await userRepo.addNewUser(user);
+        console.log(result);
 
         // gen token
         const token = await gentoken(result);

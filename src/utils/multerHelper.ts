@@ -22,9 +22,9 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: any) => {
     }
 };
 
-export default multer({
+export const upload = multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: { fileSize: maxSize }
-}) as multer.Multer;
+});
 

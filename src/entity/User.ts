@@ -35,12 +35,14 @@ export class User {
 
     @Column({
         type: "varchar",
+        nullable: true,
         length: 255
     })
     address: string;
 
     @Column({
         type: "varchar",
+        nullable: true,
         length: 11
     })
     @IsPhoneNumber()
@@ -48,6 +50,7 @@ export class User {
 
     @Column({
         type: "varchar",
+        nullable: true,
         length: 500
     })
     avatar: string;
@@ -55,7 +58,7 @@ export class User {
     @Column({
         type: "varchar",
         nullable: false,
-        length: 50
+        length: 255
     })
     password: string;
 

@@ -1,5 +1,5 @@
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/statusConstants";
-import * as multer from "multer";
+import multer from "multer";
 import { Request, Response, NextFunction } from "express";
 import { genResponseForm } from "../utils/responseHelper";
 
