@@ -6,7 +6,7 @@ import { OrderItem } from "./OrderItem";
 
 export type status = 0 | 1;
 
-@Entity()
+@Entity("product")
 export class Product {
 
     @PrimaryGeneratedColumn("uuid")

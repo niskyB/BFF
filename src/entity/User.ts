@@ -1,11 +1,10 @@
 import "reflect-metadata";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { IsDate, IsEmail, IsPhoneNumber } from "class-validator";
 import { Order } from "./Order";
 
 export type userRole = 0 | 1;
 
-@Entity()
+@Entity("user")
 export class User {
 
     @PrimaryGeneratedColumn("uuid")
@@ -30,7 +29,6 @@ export class User {
         nullable: false,
         length: 30
     })
-    @IsEmail()
     email: string;
 
     @Column({
@@ -45,7 +43,6 @@ export class User {
         nullable: true,
         length: 11
     })
-    @IsPhoneNumber()
     phone: string;
 
     @Column({
@@ -66,7 +63,6 @@ export class User {
         type: "datetime",
         default: () => "CURRENT_TIMESTAMP"
     })
-    @IsDate()
     createdDate: Date;
 
     @Column({

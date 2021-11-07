@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Order } from "./Order";
 import { Product } from "./Product";
 
-@Entity()
+@Entity("orderitem")
 export class OrderItem {
 
     @PrimaryGeneratedColumn("uuid")

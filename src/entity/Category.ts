@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Product } from "./Product";
 
-@Entity()
+@Entity("category")
 export class Category {
     @PrimaryGeneratedColumn()
     categoryId: number;

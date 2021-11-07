@@ -1,25 +1,32 @@
 import { Connection, createConnection } from "typeorm";
+import { Category } from "../entity/Category";
+import { Order } from "../entity/Order";
+import { OrderItem } from "../entity/OrderItem";
+import { Product } from "../entity/Product";
+import { User } from "../entity/User";
 
-let connection: Connection = null;
 
-export async function dbStartUp() {
-    if (!connection) {
-        connection = await createConnection({
-            type: "mysql",
-            host: process.env.HOST,
-            port: 3306,
-            username: process.env.USER,
-            password: process.env.PASSWORD,
-            database: process.env.DATABASE,
-            entities: [
-                __dirname + "/../entity/*.js",
-                __dirname + "/../entity/*.ts",
-            ],
-            synchronize: true,
-            logging: false
-        });
-        console.log("Connected successfully to DB ...");
-    }
-}
+// let connection: Connection = async () => await createConnection({
 
-export default connection;
+// });
+
+export const connection = (async () =>
+    await createConnection({
+        type: "mysql",
+        host: process.env.HOST,
+        port: 3306,
+        username: process.env.USER,
+        password: process.env.PASSWORD,
+        database: process.env.DATABASE,
+        synchronize: true,
+        entities: [
+            User,
+            Category,
+            Order,
+            OrderItem,
+            Product
+        ],
+    }).catch(err => console.log(err)))();
+
+
+

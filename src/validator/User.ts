@@ -1,4 +1,4 @@
-import * as Joi from "joi";
+import Joi from "joi";
 import { stringCustomEmail, stringCustomMessage, stringCustomPhone } from "./common/message";
 import { LoginUserDTO, RegisterUserDTO, UpdatePasswordUserDTO, UpdateProfileUserDTO } from "../interfaces/dtos/user";
 
