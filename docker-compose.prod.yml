@@ -1,0 +1,18 @@
+version: "3"
+services:
+  backend:
+    image: loc05st/bff:latest
+    container_name: bff_backend
+    ports:
+      - 80:3000
+    env_file:
+      - ./data/config/.env.production
+  db:
+    image: mysql:8.0.22
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: bff
+      MYSQL_ROOT_PASSWORD: 1234567890
+    volumes:
+      - ./data/mysql:/var/lib/mysql
